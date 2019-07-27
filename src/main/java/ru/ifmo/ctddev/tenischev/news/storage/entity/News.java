@@ -43,36 +43,12 @@ public class News {
     private Timestamp time;
 
     /**
+     * The date when news become not relevant.
+     */
+    private Timestamp expirationDate;
+
+    /**
      * The publisher name of news.
      */
     private String publisher;
-
-    /**
-     * Constructor of entity.
-     *
-     * @param topic the topic
-     * @param text he text
-     * @param publisher the publisher
-     */
-    public News(String topic, String text, String publisher) {
-        this.topic = topic;
-        this.text = text;
-        this.publisher = publisher;
-    }
-
-    /**
-     * Constructor of entity.
-     *
-     * @param topic the topic
-     * @param text he text
-     */
-    public News(String topic, String text) {
-        this(topic, text, null);
-    }
-
-    /**
-     * Constructor of entity.
-     */
-    private News() {
-    }
 }

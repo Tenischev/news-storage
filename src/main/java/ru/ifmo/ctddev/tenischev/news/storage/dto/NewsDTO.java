@@ -32,6 +32,11 @@ public @Data class NewsDTO {
     private Timestamp time;
 
     /**
+     * The date when news become not relevant.
+     */
+    private Timestamp expirationDate;
+
+    /**
      * The publisher name of news.
      */
     private String publisher;

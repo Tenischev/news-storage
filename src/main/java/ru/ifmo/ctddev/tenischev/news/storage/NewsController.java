@@ -1,5 +1,7 @@
 package ru.ifmo.ctddev.tenischev.news.storage;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +52,10 @@ public class NewsController {
         }
         amount = Math.min(amount, MAXIMAL_AMOUNT_OF_NEWS);
         try (Stream<News> stream = newsRepository.streamAllByOrderByTimeDesc()) {
-            return stream.limit(amount).map(e -> mapper.map(e, NewsDTO.class)).collect(Collectors.toList());
+            return stream
+                    .filter(n -> n.getExpirationDate().after(new Timestamp(System.currentTimeMillis())))
+                    .limit(amount)
+                    .map(e -> mapper.map(e, NewsDTO.class)).collect(Collectors.toList());
         }
     }
 
@@ -75,6 +80,9 @@ public class NewsController {
     public void addNews(@RequestBody NewsDTO news) {
         news.setId(null);
         news.setTime(null);
+        if (news.getExpirationDate() == null) {
+            news.setExpirationDate(Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
+        }
         newsRepository.save(mapper.map(news, News.class));
     }
 
